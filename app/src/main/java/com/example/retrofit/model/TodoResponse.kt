@@ -1,4 +1,4 @@
-package com.example.retrofit.ToDoScreen
+package com.example.retrofit.model
 
 data class TodoResponse(
     val completed: Boolean,
