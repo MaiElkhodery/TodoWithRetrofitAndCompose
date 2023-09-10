@@ -1,7 +1,6 @@
 package com.example.retrofit.viewmodel
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.retrofit.TodoEvent
@@ -10,19 +9,14 @@ import com.example.retrofit.api.RetrofitInstance
 import com.example.retrofit.model.TodoRequest
 import com.example.retrofit.model.TodoResponse
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class TodoViewModel : ViewModel() {
+class TodoViewModel: ViewModel() {
 
     private val _state: MutableStateFlow<TodoState> = MutableStateFlow(TodoState())
     val state = _state.asStateFlow()
-//    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TodoState())
-
     private val API_INSTANCE = RetrofitInstance.api
     private val USER_ID = 2
 
@@ -34,7 +28,7 @@ class TodoViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     _state.value.todoList= response.body()!!
                 } else {
-
+                    //showErrorMsg(response.code(), LocalContext.current)
                 }
             } catch (e: Exception) {
                 Log.d("NetworkError", e.message.toString())
