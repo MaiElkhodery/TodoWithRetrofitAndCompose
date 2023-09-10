@@ -1,7 +1,4 @@
-package com.example.retrofit
-
-import com.example.retrofit.model.TodoRequest
-import com.example.retrofit.model.TodoResponse
+package com.example.retrofit.viewmodel
 
 sealed interface TodoEvent {
     object CloseTodo : TodoEvent

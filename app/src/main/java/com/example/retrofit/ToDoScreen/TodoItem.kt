@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.retrofit.R
-import com.example.retrofit.TodoEvent
+import com.example.retrofit.viewmodel.TodoEvent
 import com.example.retrofit.model.TodoResponse
 import com.example.retrofit.ui.theme.BlueBox
 import com.example.retrofit.ui.theme.LightBlue

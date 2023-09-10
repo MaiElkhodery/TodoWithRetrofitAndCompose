@@ -1,6 +1,5 @@
 package com.example.retrofit.api
 
-import com.example.retrofit.TODO_URL
 import com.example.retrofit.model.TodoRequest
 import com.example.retrofit.model.TodoResponse
 import retrofit2.Response
@@ -11,7 +10,6 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
-import retrofit2.http.QueryMap
 
 interface TodoApi {
     @GET("TODO_URL")

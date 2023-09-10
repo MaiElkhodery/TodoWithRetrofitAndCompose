@@ -1,6 +1,5 @@
 package com.example.retrofit.api
 
-import com.example.retrofit.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

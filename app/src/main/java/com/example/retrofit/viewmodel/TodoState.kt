@@ -1,4 +1,4 @@
-package com.example.retrofit
+package com.example.retrofit.viewmodel
 
 import com.example.retrofit.model.TodoResponse
 

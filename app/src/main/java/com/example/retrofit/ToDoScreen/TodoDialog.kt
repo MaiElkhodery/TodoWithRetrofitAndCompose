@@ -22,8 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.retrofit.TodoEvent
-import com.example.retrofit.TodoState
+import com.example.retrofit.viewmodel.TodoEvent
+import com.example.retrofit.viewmodel.TodoState
 import com.example.retrofit.ui.theme.BlueBox
 
 @OptIn(ExperimentalMaterial3Api::class)

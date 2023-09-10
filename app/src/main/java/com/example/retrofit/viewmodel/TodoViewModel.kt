@@ -3,8 +3,6 @@ package com.example.retrofit.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.retrofit.TodoEvent
-import com.example.retrofit.TodoState
 import com.example.retrofit.api.RetrofitInstance
 import com.example.retrofit.model.TodoRequest
 import com.example.retrofit.model.TodoResponse
