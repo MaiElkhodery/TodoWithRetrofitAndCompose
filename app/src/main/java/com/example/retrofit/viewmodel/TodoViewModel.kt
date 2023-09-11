@@ -3,6 +3,8 @@ package com.example.retrofit.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.retrofit.api.ApiHandler
+import com.example.retrofit.api.NetworkResult
 import com.example.retrofit.api.RetrofitInstance
 import com.example.retrofit.model.TodoRequest
 import com.example.retrofit.model.TodoResponse
@@ -11,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class TodoViewModel: ViewModel() {
+class TodoViewModel : ViewModel(), ApiHandler {
 
     private val _state: MutableStateFlow<TodoState> = MutableStateFlow(TodoState())
     val state = _state.asStateFlow()
@@ -19,65 +21,87 @@ class TodoViewModel: ViewModel() {
     private val USER_ID = 2
 
 
-    private suspend fun getTodoList() {
+    suspend fun getTodoList() {
         viewModelScope.launch {
-            try {
-                val response = API_INSTANCE.getTodoList(USER_ID)
-                if (response.isSuccessful) {
-                    _state.value.todoList= response.body()!!
-                } else {
-                    //showErrorMsg(response.code(), LocalContext.current)
+            val result = handleApi {
+                API_INSTANCE.getTodoList("key", USER_ID)
+            }
+            when (result) {
+                is NetworkResult.Error -> {
+                    Log.d("ResponseResult", "${result.code} ${result.errorMsg.toString()}")
                 }
-            } catch (e: Exception) {
-                Log.d("NetworkError", e.message.toString())
+
+                is NetworkResult.Exception -> {
+                    Log.d("ResponseResult", "${result.e.message}")
+                }
+
+                is NetworkResult.Success -> {
+                    Log.d("ResponseResult", "${result.code}")
+                    viewModelScope.launch {
+                        _state.update {
+                            it.copy(
+                                todoList = result.data
+                            )
+                        }
+                    }
+                }
             }
         }
     }
 
     private suspend fun updateTodoItem(item: TodoResponse) {
         viewModelScope.launch {
-            try {
-                val response = API_INSTANCE
+            val result = handleApi {
+                API_INSTANCE
                     .updateTodo(
                         todoItem = item,
                         resourceId = item.id
                     )
-                if (response.isSuccessful) {
-                    getTodoList()
+            }
+            getTodoList()
+            when (result) {
+                is NetworkResult.Error -> {
+                    Log.d("ResponseResult", "${result.code} ${result.errorMsg.toString()}")
                 }
 
-            } catch (e: Exception) {
-                //not success
+                is NetworkResult.Exception -> {
+                    Log.d("ResponseResult", "${result.e.message}")
+                }
+
+                is NetworkResult.Success -> {
+                    Log.d("ResponseResult", "${result.data}")
+
+                }
             }
         }
     }
 
     private suspend fun createNewItem(item: TodoRequest) {
         viewModelScope.launch {
-            try {
-                val response = API_INSTANCE
-                    .createTodo(item)
-                if (response.isSuccessful) {
-                    getTodoList()
+            val result = handleApi {
+                API_INSTANCE.createTodo(item)
+            }
+            getTodoList()
+            when (result) {
+                is NetworkResult.Error -> {
+                    Log.d("ResponseResult", "${result.code} ${result.errorMsg.toString()}")
                 }
 
-            } catch (e: Exception) {
-                //not success
+                is NetworkResult.Exception -> {
+                    Log.d("ResponseResult", "${result.e.message}")
+                }
+
+                is NetworkResult.Success -> {
+                    Log.d("ResponseResult", "${result.data}")
+
+                }
             }
         }
     }
 
     private suspend fun deleteItem(id: Int) {
         viewModelScope.launch {
-            try {
-                val response = API_INSTANCE
-                    .deleteTodo(id)
-
-                getTodoList()
-
-            } catch (e: Exception) {
-                //not success
-            }
+            val result = API_INSTANCE.deleteTodo(id)
         }
     }
 
@@ -98,7 +122,7 @@ class TodoViewModel: ViewModel() {
                             isAdding = false,
                             text = "",
                             isDone = false
-                            )
+                        )
                     }
                 }
             }
@@ -120,13 +144,11 @@ class TodoViewModel: ViewModel() {
 
             is TodoEvent.UpdateTodo -> {
                 viewModelScope.launch {
-                    val text = _state.value.text
-                    val done = _state.value.isDone
                     updateTodoItem(
                         TodoResponse(
                             id = event.id,
-                            completed = done,
-                            title = text,
+                            completed = event.isDone,
+                            title = event.text,
                             userId = USER_ID
                         )
                     )
@@ -161,6 +183,7 @@ class TodoViewModel: ViewModel() {
                             isAdding = true
                         )
                     }
+                    Log.d("ISAdding", _state.value.isAdding.toString())
                 }
             }
 
@@ -175,10 +198,6 @@ class TodoViewModel: ViewModel() {
             }
         }
     }
-    init {
-        viewModelScope.launch {
-            getTodoList()
-        }
-    }
+
 
 }

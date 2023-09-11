@@ -5,7 +5,9 @@ sealed interface TodoEvent {
     object CreateTodo : TodoEvent
 
     data class UpdateTodo(
-        val id: Int
+        val id: Int,
+        val text : String,
+        val isDone : Boolean
     ) : TodoEvent
 
     data class DeleteTodo(
@@ -22,5 +24,6 @@ sealed interface TodoEvent {
 
     object AddNewTodo : TodoEvent
     object EditTodo : TodoEvent
+
 
 }

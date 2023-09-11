@@ -13,7 +13,7 @@ interface ApiHandler {
             if (response.isSuccessful) {
                 NetworkResult.Success(response.code(), response.body()!!)
             } else {
-                NetworkResult.Error(response.code(), response.errorBody()?.toString() as T?)
+                NetworkResult.Error(response.code(), response.errorBody().toString() as T?)
             }
         } catch (e: HttpException) {
             NetworkResult.Error(e.code(), e.message() as T?)

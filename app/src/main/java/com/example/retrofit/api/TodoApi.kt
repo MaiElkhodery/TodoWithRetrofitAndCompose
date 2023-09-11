@@ -12,8 +12,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TodoApi {
-    @GET("TODO_URL")
+    @GET(TODO_URL)
     suspend fun getTodoList(
+        @Query("key") key : String,
         @Query("userId") userId : Int
     ):Response<List<TodoResponse>>
 
@@ -30,6 +31,6 @@ interface TodoApi {
         @Body todoItem : TodoRequest
     ):Response<TodoResponse>
 
-    @DELETE("TODO_URL/{id}")
+    @DELETE("$TODO_URL/{id}")
     suspend fun deleteTodo(@Path("id") id:Int)
 }
