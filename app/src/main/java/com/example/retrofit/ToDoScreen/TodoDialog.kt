@@ -1,11 +1,14 @@
 package com.example.retrofit.todoscreen
 
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
@@ -22,9 +25,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.retrofit.ui.theme.BlueBox
 import com.example.retrofit.viewmodel.TodoEvent
 import com.example.retrofit.viewmodel.TodoState
-import com.example.retrofit.ui.theme.BlueBox
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,6 +36,7 @@ fun TodoDialog(
     id : Int? = null,
     onEvent: (TodoEvent) -> Unit
 ) {
+    val scrollState = rememberScrollState()
     Dialog(
         onDismissRequest = {
             onEvent(TodoEvent.CloseTodo)
@@ -41,9 +45,10 @@ fun TodoDialog(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
+                .height(330.dp)
                 .padding(20.dp)
                 .clip(RoundedCornerShape(15))
+                .scrollable(state = scrollState, orientation = Orientation.Vertical)
         ) {
             Column {
                 Row(
@@ -66,12 +71,13 @@ fun TodoDialog(
                         modifier = Modifier.weight(1f),
                         checked = state.isDone,
                         onCheckedChange = {
-                            state.isDone = it
+                            onEvent(TodoEvent.SetTodoChecking(it))
                         },
                         colors = CheckboxDefaults.colors(
                             checkedColor = BlueBox,
                             uncheckedColor = Color.Red
                         ),
+                        enabled = true
                     )
                 }
                 Row(
@@ -84,9 +90,11 @@ fun TodoDialog(
                     TextButton(
                         onClick = {
                             if(state.isEditing){
-                                onEvent(TodoEvent.UpdateTodo(id!!))
+                                onEvent(TodoEvent.UpdateTodo(id!!,state.text,state.isDone))
+                                onEvent(TodoEvent.CloseTodo)
                             }else if(state.isAdding){
                                 onEvent(TodoEvent.CreateTodo)
+                                onEvent(TodoEvent.CloseTodo)
                             }
                         }
                     ) {
