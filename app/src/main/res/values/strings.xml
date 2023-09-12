@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Retrofit</string>
+    <string name="todo_app">ToDo App</string>
 </resources>

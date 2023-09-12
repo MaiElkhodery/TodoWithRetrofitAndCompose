@@ -1,6 +1,7 @@
 package com.example.retrofit.todoscreen
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,77 +11,65 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.retrofit.R
 import com.example.retrofit.model.TodoResponse
-import com.example.retrofit.ui.theme.BlueBox
 import com.example.retrofit.ui.theme.CardColor
 import com.example.retrofit.viewmodel.TodoEvent
-import com.example.retrofit.viewmodel.TodoViewModel
 
 @Composable
 fun TodoItem(
     item: TodoResponse,
-    viewModel: TodoViewModel = hiltViewModel()
+    onEvent: (TodoEvent) -> Unit
 ) {
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = 14.dp)
             .clickable {
-                viewModel.onEvent(TodoEvent.SetTodoText(item.title))
-                viewModel.onEvent(TodoEvent.SetTodoChecking(item.completed))
-                viewModel.onEvent(TodoEvent.EditTodo)
+                onEvent(TodoEvent.SetTodoText(item.title))
+                onEvent(TodoEvent.SetTodoChecking(item.completed))
+                onEvent(TodoEvent.EditTodo)
             }
             .clip(RoundedCornerShape(12.dp)),
-        colors = CardDefaults.cardColors(CardColor),
+        colors = CardDefaults.cardColors(CardColor)
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.padding(14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
-            Text(
-                modifier = Modifier
-                    .weight(2f)
-                    .padding(14.dp),
-                text = item.title,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Start,
-                fontFamily = FontFamily(
-                    Font(
-                        R.font.akaya_telivigala
-                    )
-                ),
-                fontWeight = FontWeight.Medium
+
+            ShowText(
+                modifier = Modifier.weight(5f),
+                text = item.title
             )
 
             Checkbox(
+                modifier = Modifier
+                    .weight(1f),
                 checked = item.completed,
-                onCheckedChange = {},
+                onCheckedChange = {
+                },
                 colors = CheckboxDefaults.colors(
-                    checkedColor = BlueBox,
-                    uncheckedColor = Color.Red),
+                    checkedColor = Color.Black,
+                    uncheckedColor = Color.Gray
+                ),
                 enabled = false
             )
             Icon(
                 modifier = Modifier
-                    .padding(12.dp)
+                    .weight(1f)
                     .clickable {
-                      viewModel.onEvent(TodoEvent.DeleteTodo(item.id))
-                },
+                        onEvent(TodoEvent.DeleteTodo(item.id))
+                    },
                 painter = painterResource(id = R.drawable.delete),
                 contentDescription = null
             )
@@ -91,5 +80,5 @@ fun TodoItem(
 @Composable
 @Preview
 fun Preview3() {
-    TodoItem(item = TodoResponse(true,2,"this is my todo",1))
+    TodoItem(item = TodoResponse(true, 2, "this is my todo", 1)) {}
 }

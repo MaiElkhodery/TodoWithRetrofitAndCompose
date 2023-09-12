@@ -58,7 +58,6 @@ class TodoViewModel : ViewModel(), ApiHandler {
                         resourceId = item.id
                     )
             }
-            getTodoList()
             when (result) {
                 is NetworkResult.Error -> {
                     Log.d("ResponseResult", "${result.code} ${result.errorMsg.toString()}")
@@ -69,6 +68,7 @@ class TodoViewModel : ViewModel(), ApiHandler {
                 }
 
                 is NetworkResult.Success -> {
+                    getTodoList()
                     Log.d("ResponseResult", "${result.data}")
 
                 }
@@ -81,7 +81,6 @@ class TodoViewModel : ViewModel(), ApiHandler {
             val result = handleApi {
                 API_INSTANCE.createTodo(item)
             }
-            getTodoList()
             when (result) {
                 is NetworkResult.Error -> {
                     Log.d("ResponseResult", "${result.code} ${result.errorMsg.toString()}")
@@ -92,6 +91,7 @@ class TodoViewModel : ViewModel(), ApiHandler {
                 }
 
                 is NetworkResult.Success -> {
+                    getTodoList()
                     Log.d("ResponseResult", "${result.data}")
 
                 }
@@ -101,7 +101,8 @@ class TodoViewModel : ViewModel(), ApiHandler {
 
     private suspend fun deleteItem(id: Int) {
         viewModelScope.launch {
-            val result = API_INSTANCE.deleteTodo(id)
+            API_INSTANCE.deleteTodo(id)
+            getTodoList()
         }
     }
 
@@ -183,7 +184,6 @@ class TodoViewModel : ViewModel(), ApiHandler {
                             isAdding = true
                         )
                     }
-                    Log.d("ISAdding", _state.value.isAdding.toString())
                 }
             }
 
@@ -198,6 +198,10 @@ class TodoViewModel : ViewModel(), ApiHandler {
             }
         }
     }
-
+    init {
+        viewModelScope.launch {
+            getTodoList()
+        }
+    }
 
 }

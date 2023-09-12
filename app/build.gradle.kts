@@ -83,7 +83,9 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+
+    //material
+    implementation("androidx.compose.material3:material3:1.1.1")
 
 
 }
