@@ -1,4 +1,4 @@
-package com.example.retrofit.todoscreen
+package com.example.retrofit.presentation.todoscreen
 
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -34,8 +34,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.retrofit.R
 import com.example.retrofit.ui.theme.ListBackgroundColor
-import com.example.retrofit.viewmodel.TodoEvent
-import com.example.retrofit.viewmodel.TodoState
+import com.example.retrofit.presentation.viewmodel.TodoEvent
+import com.example.retrofit.presentation.viewmodel.TodoState
 
 @Composable
 fun TodoDialog(
@@ -164,7 +164,7 @@ fun ShowTextButton(text: String) {
 fun Preview2() {
     TodoDialog(
         state = TodoState(
-            emptyList(),
+            mutableListOf(),
             isAdding = true,
             isEditing = false,
             "Hello",

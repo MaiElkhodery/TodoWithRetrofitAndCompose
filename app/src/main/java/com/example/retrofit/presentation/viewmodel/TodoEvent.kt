@@ -1,4 +1,6 @@
-package com.example.retrofit.viewmodel
+package com.example.retrofit.presentation.viewmodel
+
+import com.example.retrofit.data.model.TaskTodoResponse
 
 sealed interface TodoEvent {
     object CloseTodo : TodoEvent
@@ -10,7 +12,7 @@ sealed interface TodoEvent {
     ) : TodoEvent
 
     data class DeleteTodo(
-        val id: Int
+        val task: TaskTodoResponse
     ) : TodoEvent
 
     data class SetTodoText(

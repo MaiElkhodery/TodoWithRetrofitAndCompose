@@ -1,6 +1,6 @@
-package com.example.retrofit.model
+package com.example.retrofit.data.model
 
-data class TodoResponse(
+data class TaskTodoResponse (
     val completed: Boolean,
     val id: Int,
     val title: String,

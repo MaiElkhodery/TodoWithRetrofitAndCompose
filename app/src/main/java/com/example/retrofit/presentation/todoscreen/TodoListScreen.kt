@@ -1,4 +1,4 @@
-package com.example.retrofit.todoscreen
+package com.example.retrofit.presentation.todoscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,10 +28,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.retrofit.R
+import com.example.retrofit.presentation.viewmodel.TodoEvent
+import com.example.retrofit.presentation.viewmodel.TodoViewModel
 import com.example.retrofit.ui.theme.ListBackgroundColor
 import com.example.retrofit.ui.theme.TodoBasicColor
-import com.example.retrofit.viewmodel.TodoEvent
-import com.example.retrofit.viewmodel.TodoViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,12 +39,14 @@ fun TodoList(
     viewModel: TodoViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    ShowText(modifier = Modifier, text = stringResource(id = R.string.todo_app))
+                    ShowText(
+                        modifier = Modifier.padding(1.dp),
+                        text = stringResource(id = R.string.todo_app)
+                    )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = TodoBasicColor,
@@ -94,14 +96,12 @@ fun TodoList(
             ) {
 
                 items(state.todoList) { item ->
-
                     if (state.isEditing) {
                         TodoDialog(state, item.id, viewModel::onEvent)
                     } else if (state.isAdding) {
                         TodoDialog(state, null, viewModel::onEvent)
                     }
                     TodoItem(item, viewModel::onEvent)
-
                 }
             }
         }

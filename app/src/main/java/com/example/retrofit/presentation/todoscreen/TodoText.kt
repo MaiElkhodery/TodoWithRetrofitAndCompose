@@ -1,4 +1,4 @@
-package com.example.retrofit.todoscreen
+package com.example.retrofit.presentation.todoscreen
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +15,7 @@ fun ShowText(
     modifier: Modifier,
     text: String
 ) {
+
     Text(
         modifier = modifier,
         text = text,

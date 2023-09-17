@@ -1,4 +1,4 @@
-package com.example.retrofit.todoscreen
+package com.example.retrofit.presentation.todoscreen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,13 +20,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.retrofit.R
-import com.example.retrofit.model.TodoResponse
+import com.example.retrofit.data.model.TaskTodoResponse
+import com.example.retrofit.presentation.viewmodel.TodoEvent
 import com.example.retrofit.ui.theme.CardColor
-import com.example.retrofit.viewmodel.TodoEvent
 
 @Composable
 fun TodoItem(
-    item: TodoResponse,
+    task: TaskTodoResponse,
     onEvent: (TodoEvent) -> Unit
 ) {
     Card(
@@ -34,8 +34,8 @@ fun TodoItem(
             .fillMaxWidth()
             .padding(horizontal = 14.dp)
             .clickable {
-                onEvent(TodoEvent.SetTodoText(item.title))
-                onEvent(TodoEvent.SetTodoChecking(item.completed))
+                onEvent(TodoEvent.SetTodoText(task.title))
+                onEvent(TodoEvent.SetTodoChecking(task.completed))
                 onEvent(TodoEvent.EditTodo)
             }
             .clip(RoundedCornerShape(12.dp)),
@@ -49,13 +49,13 @@ fun TodoItem(
 
             ShowText(
                 modifier = Modifier.weight(5f),
-                text = item.title
+                text = task.title
             )
 
             Checkbox(
                 modifier = Modifier
                     .weight(1f),
-                checked = item.completed,
+                checked = task.completed,
                 onCheckedChange = {
                 },
                 colors = CheckboxDefaults.colors(
@@ -68,7 +68,7 @@ fun TodoItem(
                 modifier = Modifier
                     .weight(1f)
                     .clickable {
-                        onEvent(TodoEvent.DeleteTodo(item.id))
+                        onEvent(TodoEvent.DeleteTodo(task))
                     },
                 painter = painterResource(id = R.drawable.delete),
                 contentDescription = null
@@ -80,5 +80,5 @@ fun TodoItem(
 @Composable
 @Preview
 fun Preview3() {
-    TodoItem(item = TodoResponse(true, 2, "this is my todo", 1)) {}
+    TodoItem(TaskTodoResponse(true, 2, "this is my todo", 1)) {}
 }

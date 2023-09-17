@@ -1,4 +1,4 @@
-package com.example.retrofit.api
+package com.example.retrofit.data.api
 
 sealed class NetworkResult<out T : Any> {
     data class Success<out T : Any>(val code: Int,val data :T): NetworkResult<T>()
