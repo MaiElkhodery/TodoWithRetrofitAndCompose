@@ -3,6 +3,7 @@ package com.example.retrofit.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.retrofit.HelperClass
 import com.example.retrofit.data.api.ApiHandler
 import com.example.retrofit.data.api.NetworkResult
 import com.example.retrofit.data.model.TaskTodoRequest
@@ -23,6 +24,8 @@ class TodoViewModel @Inject constructor(
     private val _state: MutableStateFlow<TodoState> = MutableStateFlow(TodoState())
     val state = _state.asStateFlow()
 
+    @Inject
+    lateinit var helper: HelperClass
     private suspend fun getTodoList() {
         viewModelScope.launch {
             val response = handleApi { repo.getTodoList() }
@@ -32,7 +35,7 @@ class TodoViewModel @Inject constructor(
                 }
 
                 is NetworkResult.Exception -> {
-                    Log.d("ResponseMsgG", "Exception: ${response.e.message}")
+                    helper.handleApiError(response.e)
                 }
 
                 is NetworkResult.Success -> {
@@ -42,7 +45,6 @@ class TodoViewModel @Inject constructor(
                             todoList = response.data.toMutableList()
                         )
                     }
-                    Log.d("IsListIsEmpty", state.value.todoList.isEmpty().toString())
                 }
             }
         }
@@ -63,13 +65,12 @@ class TodoViewModel @Inject constructor(
                 }
 
                 is NetworkResult.Exception -> {
-                    Log.d("ResponseMsg", "Exception: ${response.e.message}")
+                    helper.handleApiError(response.e)
                 }
 
                 is NetworkResult.Success -> {
-                    Log.d("ResponseMsg", "Task: ${response.data}")
-
-                   getTodoList()
+                    helper.showToast("Done")
+                    getTodoList()
                 }
             }
         }
@@ -87,11 +88,11 @@ class TodoViewModel @Inject constructor(
                 }
 
                 is NetworkResult.Exception -> {
-                    Log.d("ResponseMsg", "Exception: ${response.e.message}")
+                    helper.handleApiError(response.e)
                 }
 
                 is NetworkResult.Success -> {
-                    Log.d("ResponseMsg", "Task: ${response.data}")
+                    helper.showToast("Done")
                     getTodoList()
                 }
             }
@@ -113,7 +114,7 @@ class TodoViewModel @Inject constructor(
                 }
 
                 is NetworkResult.Success -> {
-                    Log.d("ResponseMsg", "Task: ${response.data}")
+                    helper.showToast("Done")
                     val index = _state.value.todoList.indexOf(task)
                     _state.value.todoList.removeAt(index)
                     _state.update {
