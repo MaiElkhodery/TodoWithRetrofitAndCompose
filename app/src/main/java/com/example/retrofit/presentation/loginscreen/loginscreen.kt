@@ -67,7 +67,7 @@ fun LoginScreen() {
                 }
                 Column(
                     modifier = Modifier
-                        .weight(2f)
+                        .weight(3f)
                         .fillMaxWidth(),
                     verticalArrangement = Arrangement.Center
                 ) {
@@ -76,9 +76,10 @@ fun LoginScreen() {
                     ShowInputField(label = "Password")
                 }
                 VerticalSpacer()
+                VerticalSpacer()
                 Column(
                     modifier = Modifier
-                        .weight(1f)
+                        .weight(3f)
                         .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
