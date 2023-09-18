@@ -1,5 +1,6 @@
 package com.example.retrofit.presentation.signupscreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,7 +34,11 @@ fun ShowAuthBottomText(text1: String, text2: String) {
             color = Color.Gray
         )
         Text(
-            modifier = Modifier.padding(start = 6.dp),
+            modifier = Modifier
+                .padding(start = 6.dp)
+                .clickable {
+
+                },
             text = text2,
             fontSize = 12.sp,
             fontFamily = FontFamily(

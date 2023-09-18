@@ -14,7 +14,6 @@ import com.example.retrofit.R
 @Composable
 fun ShowAuthText(authText: String) {
     Text(
-        modifier = Modifier,
         text = authText,
         fontSize = 26.sp,
         fontFamily = FontFamily(
