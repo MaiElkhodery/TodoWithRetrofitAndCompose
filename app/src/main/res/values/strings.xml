@@ -2,4 +2,5 @@
     <string name="app_name">Retrofit</string>
     <string name="todo_app">ToDo App</string>
     <string name="signup">Sign-Up</string>
+    <string name="login">Log-in</string>
 </resources>
