@@ -28,7 +28,9 @@ fun SignupScreen() {
 
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         ) {
             Image(
                 modifier = Modifier.fillMaxWidth(),
@@ -38,7 +40,8 @@ fun SignupScreen() {
         }
         Card(
             modifier = Modifier
-                .padding(horizontal = 20.dp),
+                .padding(horizontal = 20.dp)
+                .weight(2f),
             shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color.Black
@@ -51,6 +54,7 @@ fun SignupScreen() {
                 horizontalAlignment = Alignment.Start
             ) {
                 VerticalSpacer()
+                VerticalSpacer()
                 ShowAuthText(authText = stringResource(id = R.string.signup))
                 VerticalSpacer()
                 ShowInputField(label = "User Name")
@@ -58,6 +62,7 @@ fun SignupScreen() {
                 ShowInputField(label = "Email")
                 VerticalSpacer()
                 ShowInputField(label = "Password")
+                VerticalSpacer()
                 VerticalSpacer()
                 ShowAuthButton(text = "Sign up")
                 VerticalSpacer()
