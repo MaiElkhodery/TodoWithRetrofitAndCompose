@@ -95,6 +95,10 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
+    //navigation
+    val nav_version = "2.7.2"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
 }
 kapt {
     correctErrorTypes = true
