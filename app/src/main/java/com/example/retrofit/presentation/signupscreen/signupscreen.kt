@@ -2,7 +2,6 @@ package com.example.retrofit.presentation.signupscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -55,40 +54,23 @@ fun SignupScreen() {
                 horizontalAlignment = Alignment.Start
             ) {
                 VerticalSpacer()
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                ) {
-                    ShowAuthText(authText = stringResource(id = R.string.signup))
-                }
-                Column(
-                    modifier = Modifier
-                        .weight(5f)
-                        .fillMaxWidth(),
-                    verticalArrangement = Arrangement.Center
-                ){
-                    ShowInputField(label = "User Name")
-                    VerticalSpacer()
-                    ShowInputField(label = "Email")
-                    VerticalSpacer()
-                    ShowInputField(label = "Password")
-                }
                 VerticalSpacer()
-                Column(
-                    modifier = Modifier
-                        .weight(2f)
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-                    ShowAuthButton(text = "Sign up")
-                    VerticalSpacer()
-                    ShowAuthBottomText(
-                        text1 = "Already have an account",
-                        text2 = "Login"
-                    )
-                    VerticalSpacer()
-                }
+                ShowAuthText(authText = stringResource(id = R.string.signup))
+                VerticalSpacer()
+                ShowInputField(label = "User Name")
+                VerticalSpacer()
+                ShowInputField(label = "Email")
+                VerticalSpacer()
+                ShowInputField(label = "Password")
+                VerticalSpacer()
+                VerticalSpacer()
+                ShowAuthButton(text = "Sign up")
+                VerticalSpacer()
+                ShowAuthBottomText(
+                    text1 = "Already have an account",
+                    text2 = "Login"
+                )
+                VerticalSpacer()
             }
         }
 
